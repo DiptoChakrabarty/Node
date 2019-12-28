@@ -18,7 +18,8 @@ var gameschema = new mongoose.Schema({
 
 var games = mongoose.model("games",gameschema);
 
-games.create({
+/*  adding to db manually without form
+ games.create({
     name: 'sam', 
     url: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSHys3zUHtG3crOhn9e93gdB1g1K6fS-628jLZ9os6btto4gfRZ&s",
     description: "Awesome Stealth Game"
@@ -29,13 +30,7 @@ games.create({
         console.log("New game added");
         console.log(game);
     }
-})
-
-/*var games = [
-    {name: 'sam', url: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSHys3zUHtG3crOhn9e93gdB1g1K6fS-628jLZ9os6btto4gfRZ&s" },
-    {name: 'snake', url: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSFzCBvmphx61iko2bVWaf-jLDzeS0ArgL33oAGD9WgPIRcWco5&s" },
-    {name:'agent47', url: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT89ja7pRd7ge6FqOjz4SZz18FSTmHS4PNejwyCfezTFrBV8kKV&s " }
-];*/
+})*/
 
 app.get("/",function(req,res){
     res.render("home");
@@ -57,7 +52,8 @@ app.get("/game",function(req,res){
 app.post("/game",function(req,res){
     var name = req.body.name;
     var url = req.body.url;
-    var newgame= {name: name , url: url};
+    var desc = req.body.description;
+    var newgame= {name: name , url: url , description: desc};
     //games.push(newgame);
     // save to db
     games.create(newgame,function(err,newimg){
@@ -76,8 +72,14 @@ app.get("/new",function(req,res){
 });
 
 app.get("/game/:id",function(req,res){
-    res.get("New id page");
-})
+    games.findById(req.params.id,function(err,found){
+        if(err){
+            console.log(err);
+        } else {
+            res.render("show" , {game_name : found}); 
+        }
+    });
+});
 
 
 app.listen(3000,function(){
