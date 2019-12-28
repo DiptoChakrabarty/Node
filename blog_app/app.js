@@ -67,6 +67,7 @@ app.post("/blogs",function(req,res){
     });
 });
 
+// Get by ID
 app.get("/blogs/:id",function(req,res){
     blog.findById(req.params.id,function(err,found){
         if(err){
@@ -75,7 +76,20 @@ app.get("/blogs/:id",function(req,res){
         else{
             res.render("showid",{blog:found})
         }
-    })
+    });
+});
+
+//Edit items
+app.get("/blogs/:id/edit",function(req,res){
+    blog.findById(req.params.id,function(err,found){
+        if(err){
+            res.redirect("/blogs");
+        }
+        else{
+            res.render("edit",{blog:found})
+        }
+    });
+    
 });
 
 
