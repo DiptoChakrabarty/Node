@@ -10,6 +10,10 @@
             <div class="paragraph">
                 <p> <%= blog.body %> </p>
             </div>
+            <a href="/blogs/<%= blog._id %>/edit ">Edit Blog</a>
+            <form action="/blogs/<%=blog._id%>?_method=DELETE" method="POST">
+                <button class="ui red basic">Delete</button>
+            </form>
         </div>
     </div>
     
