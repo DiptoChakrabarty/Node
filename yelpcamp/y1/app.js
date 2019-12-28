@@ -1,15 +1,38 @@
 var express =  require("express");
 var app = express();
 var body = require("body-parser");
+var mongoose = require("mongoose");
+
+mongoose.connect("mongodb://localhost/games");
 
 app.use(body.urlencoded({extended : true}));
 
 app.set("view engine","ejs");
 
+// Set Schema
+var gameschema = new mongoose.Schema({
+    name: String,
+    url: String
+});
+
+var games = mongoose.model("games",gameschema);
+
+games.create({
+    name: 'sam', 
+    url: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSHys3zUHtG3crOhn9e93gdB1g1K6fS-628jLZ9os6btto4gfRZ&s"
+}, function(err,game){
+    if(err){
+        console.log(err);
+    } else {
+        console.log("New game added");
+        console.log(game);
+    }
+})
+
 var games = [
     {name: 'sam', url: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSHys3zUHtG3crOhn9e93gdB1g1K6fS-628jLZ9os6btto4gfRZ&s" },
     {name: 'snake', url: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSFzCBvmphx61iko2bVWaf-jLDzeS0ArgL33oAGD9WgPIRcWco5&s" },
-    {name:'agent47', url: "https://img.gta5-mods.com/q95/images/hitman-2-sniper-assassin-agent-47/8b6336-agent-47-hitman-2-pu-1366x768.jpg " }
+    {name:'agent47', url: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT89ja7pRd7ge6FqOjz4SZz18FSTmHS4PNejwyCfezTFrBV8kKV&s " }
 ];
 
 app.get("/",function(req,res){
