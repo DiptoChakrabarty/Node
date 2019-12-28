@@ -21,7 +21,7 @@ var blogschema = new mongoose.Schema({
 
 var blog = mongoose.model("blog",blogschema);
 
-blog.create({
+/*blog.create({
     title: 'sam', 
     image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSHys3zUHtG3crOhn9e93gdB1g1K6fS-628jLZ9os6btto4gfRZ&s",
     body: "Awesome Stealth Game"
@@ -32,7 +32,7 @@ blog.create({
         console.log("New blog added");
         console.log(blog);
     }
-})*
+})*/
 
 // setup REST routes
 app.get("/",function(req,res){
@@ -48,6 +48,23 @@ app.get("/blogs",function(req,res){
         }
     });
    
+});
+
+// New Route
+
+app.get("/blogs/new",function(req,res){
+    res.render("new");
+});
+
+// Post route
+app.post("/blogs",function(req,res){
+    blog.create(req.body.blog,function(err,newblog){
+        if(err){
+            res.render("new");
+        } else{
+            res.redirect("/");
+        }
+    });
 });
 
 
