@@ -67,6 +67,17 @@ app.post("/blogs",function(req,res){
     });
 });
 
+app.get("/blogs/:id",function(req,res){
+    blog.findById(req.params.id,function(err,found){
+        if(err){
+            res.redirect("/blogs");
+        }
+        else{
+            res.render("showid",{blog:found})
+        }
+    })
+});
+
 
 app.listen(3000,function(){
     console.log("Server started in port 3000");
