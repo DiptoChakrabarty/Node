@@ -29,19 +29,27 @@ games.create({
     }
 })
 
-var games = [
+/*var games = [
     {name: 'sam', url: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSHys3zUHtG3crOhn9e93gdB1g1K6fS-628jLZ9os6btto4gfRZ&s" },
     {name: 'snake', url: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSFzCBvmphx61iko2bVWaf-jLDzeS0ArgL33oAGD9WgPIRcWco5&s" },
     {name:'agent47', url: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT89ja7pRd7ge6FqOjz4SZz18FSTmHS4PNejwyCfezTFrBV8kKV&s " }
-];
+];*/
 
 app.get("/",function(req,res){
     res.render("home");
 });
 
 app.get("/game",function(req,res){
+
+    games.find({},function(err,allgame){
+        if(err){
+            console.log(err);
+        } else {
+            res.render("game", {games: allgame});
+        }
+    });
    
-    res.render("game",{games : games});
+    //res.render("game",{games : games});
 });
 
 app.post("/game",function(req,res){
