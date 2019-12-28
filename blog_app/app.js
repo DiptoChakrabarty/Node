@@ -2,12 +2,15 @@ var express =  require("express");
 var app = express();
 var body = require("body-parser");
 var mongoose = require("mongoose");
+var methodOverride =  require("method-override");
 
 mongoose.connect("mongodb://localhost/blog");
 // setup app
 app.use(body.urlencoded({extended : true}));
 
 app.use(express.static("public"));
+
+app.use(methodOverride("_method"));
 
 app.set("view engine","ejs");
 
@@ -90,6 +93,20 @@ app.get("/blogs/:id/edit",function(req,res){
         }
     });
     
+});
+
+//Update items
+
+app.put("/blogs/:id",function(req,res){
+        blog.findByIdAndUpdate(req.params.id,req.body.blog,function(err,updated){
+            if(err){
+                res.redirect("blogs");
+            }else {
+                res.redirect("/blogs/"+req.params.id);
+            }
+
+        });
+
 });
 
 
