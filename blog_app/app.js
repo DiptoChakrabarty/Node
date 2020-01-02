@@ -2,6 +2,12 @@ var express =  require("express");
 var app = express();
 var body = require("body-parser");
 var mongoose = require("mongoose");
+
+var blog= require("./models/blog.js");
+var user = require("./models/user.js");
+var comment = require("./models/comment.js");
+var seedDB = require("./seeds");
+
 var methodOverride =  require("method-override");
 
 mongoose.connect("mongodb://localhost/blog");
@@ -14,28 +20,7 @@ app.use(methodOverride("_method"));
 
 app.set("view engine","ejs");
 
-// Set mongoose Schema
-var blogschema = new mongoose.Schema({
-    title: String,
-    image: String,
-    body: String,
-    created: {type: Date,default: Date.now }
-});
-
-var blog = mongoose.model("blog",blogschema);
-
-/*blog.create({
-    title: 'sam', 
-    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSHys3zUHtG3crOhn9e93gdB1g1K6fS-628jLZ9os6btto4gfRZ&s",
-    body: "Awesome Stealth Game"
-}, function(err,blog){
-    if(err){
-        console.log(err);
-    } else {
-        console.log("New blog added");
-        console.log(blog);
-    }
-})*/
+//seedDB();
 
 // setup REST routes
 app.get("/",function(req,res){
