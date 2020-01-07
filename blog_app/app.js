@@ -57,12 +57,12 @@ app.post("/blogs",function(req,res){
 
 // Get by ID
 app.get("/blogs/:id",function(req,res){
-    blog.findById(req.params.id,function(err,found){
+    blog.findById(req.params.id).populate("comments").exec(function(err,found){
         if(err){
             res.redirect("/blogs");
         }
         else{
-            res.render("showid",{blog:found})
+            res.render("showid",{blog:found});
         }
     });
 });
@@ -74,7 +74,7 @@ app.get("/blogs/:id/edit",function(req,res){
             res.redirect("/blogs");
         }
         else{
-            res.render("edit",{blog:found})
+            res.render("edit",{blog:found});
         }
     });
     

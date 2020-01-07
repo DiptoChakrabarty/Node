@@ -20,5 +20,12 @@
     
    
 </div>
+<div>
+    <% blog.comments.forEach(function(comment)) { %>
+            <p>
+                <B><%= comment.author %></B> - <%= comment.content %>
+            </p>
+    });
+</div>
 
 <%- include('partials/footer')  %>
