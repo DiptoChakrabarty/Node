@@ -20,7 +20,7 @@ app.use(methodOverride("_method"));
 
 app.set("view engine","ejs");
 
-//seedDB();
+seedDB();
 
 // setup REST routes
 app.get("/",function(req,res){
