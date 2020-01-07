@@ -106,6 +106,22 @@ app.delete("/blogs/:id",function(req,res){
 });
 
 
+//Comments Route
+
+app.get("/blogs/:id/comments/new",function(req,res){
+    blog.findById(req.params.id,function(err,data){
+        if(err){
+            console.log(err);
+        } else{
+            res.render("comments/new",{blog : data});
+      
+        }
+
+    });
+});
+    
+
+
 app.listen(3000,function(){
     console.log("Server started in port 3000");
 });
