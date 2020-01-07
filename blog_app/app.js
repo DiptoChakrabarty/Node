@@ -119,6 +119,27 @@ app.get("/blogs/:id/comments/new",function(req,res){
 
     });
 });
+
+app.post("/blogs/:id/comments",function(req,res){
+
+    blog.findById(req.params.id,function(err,data){
+        if(err){
+            res.redirect("/blogs");
+        }
+        else{
+            comment.create(req.body.comments,function(err,comment){
+                if(err){
+                    console.log(err);
+                }else{
+                    blogs.comments.push(comment);
+                    blogs.save();
+                    res.redirect("/blogs/"+blogs._id);
+                }
+
+            });
+        }
+    });
+});
     
 
 
