@@ -50,9 +50,15 @@ app.get("/signin",function(req,res){
     res.render("signin");
 });
 
-//app.post("signin",function(req,res){
-
-//})
+app.post("/signin",function(req,res){
+    user.create(req.body.users,function(err,Users){
+        if(err){
+            res.redirect("/signin");
+        }else{
+            res.redirect("/")
+        }
+    });
+});
 
 
 
