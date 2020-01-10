@@ -1,7 +1,10 @@
-var express =  require("express");
-var app = express();
-var body = require("body-parser");
-var mongoose = require("mongoose");
+var express =  require("express"),
+     app = express(),
+     body = require("body-parser"),
+     localstrategy = require("passport-local"),
+     passportlocal = require("passport-local-mongoose"),
+     user = require("./models/user"),
+     mongoose = require("mongoose");
 
 
 
@@ -10,6 +13,8 @@ app.use(body.urlencoded({extended : true}));
 
 app.use(express.static("public"));
 
+
+mongoose.connect("mongodb://localhost/auth");
 
 
 app.set("view engine","ejs");
@@ -25,7 +30,7 @@ app.get("/secret",function(req,res){
 });
 
 app.get("/*",function(req,res){
-    res.render("extra")
+    res.render("extra");
 });
 
 
