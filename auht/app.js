@@ -24,6 +24,7 @@ app.use(express.static("public"));
 
 passport.serializeUser(user.serializeUser());
 passport.deserializeUser(user.deserializeUser());
+passport.use(new localstrategy(user.authenticate()));
 
 mongoose.connect("mongodb://localhost/auth");
 
@@ -45,12 +46,13 @@ app.get("/secret",function(req,res){
     res.render("secret");
 });
 
+//signup method
 
-app.get("/signin",function(req,res){
-    res.render("signin");
+app.get("/signup",function(req,res){
+    res.render("signup");
 });
 
-app.post("/signin",function(req,res){
+/*app.post("/signin",function(req,res){
     user.create(req.body.users,function(err,Users){
         if(err){
             res.redirect("/signin");
@@ -58,6 +60,29 @@ app.post("/signin",function(req,res){
             res.redirect("/")
         }
     });
+});*/
+
+
+// signin method
+app.get("/signin",function(req,res){
+    res.render("signin");
+});
+
+/*app.post("/signin",function(req,res){
+    user.create(req.body.users,function(err,Users){
+        if(err){
+            res.redirect("/signin");
+        }else{
+            res.redirect("/")
+        }
+    });
+});*/
+
+app.post("/signin",passport.authenticate("local",{
+    successRedirect: "/secret",
+    failureRedirect: "/signin"
+}),function(req,res){
+
 });
 
 
