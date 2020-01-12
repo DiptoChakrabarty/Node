@@ -52,6 +52,22 @@ app.get("/signup",function(req,res){
     res.render("signup");
 });
 
+app.post("/signup",function(req,res){
+    var name = req.body.username;
+    var pass = req.body.passowrd;
+    user.register(new user({username: name}),pass,function(err,user){
+        if(err){
+            console.log(err);
+            return res.render("/signup");
+        }
+        passport.authenticate("local")(req,res,function(){
+            res.redirect("/secret");
+        });
+
+    });
+});
+
+
 /*app.post("/signin",function(req,res){
     user.create(req.body.users,function(err,Users){
         if(err){
@@ -67,6 +83,8 @@ app.get("/signup",function(req,res){
 app.get("/signin",function(req,res){
     res.render("signin");
 });
+
+
 
 /*app.post("/signin",function(req,res){
     user.create(req.body.users,function(err,Users){
