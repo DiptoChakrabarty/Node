@@ -69,16 +69,6 @@ app.post("/signup",function(req,res){
 });
 
 
-/*app.post("/signin",function(req,res){
-    user.create(req.body.users,function(err,Users){
-        if(err){
-            res.redirect("/signin");
-        }else{
-            res.redirect("/")
-        }
-    });
-});*/
-
 
 // signin method
 app.get("/signin",function(req,res){
