@@ -54,11 +54,12 @@ app.get("/signup",function(req,res){
 
 app.post("/signup",function(req,res){
     var name = req.body.username;
-    var pass = req.body.passowrd;
+    var pass = req.body.password;
+    console.log(name,pass);
     user.register(new user({username: name}),pass,function(err,user){
         if(err){
             console.log(err);
-            return res.render("/signup");
+            res.render("signup");
         }
         passport.authenticate("local")(req,res,function(){
             res.redirect("/secret");
