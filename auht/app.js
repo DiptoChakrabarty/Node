@@ -42,7 +42,7 @@ app.get("/",function(req,res){
 });
 
 
-app.get("/secret",function(req,res){
+app.get("/secret",islogged,function(req,res){
     res.render("secret");
 });
 
@@ -93,6 +93,21 @@ app.post("/signin",passport.authenticate("local",{
 }),function(req,res){
 
 });
+
+//Logout User
+app.get("/logout",function(req,res){
+        req.logout();
+        res.redirect("/");
+});
+
+//Middleware for logged in
+
+function islogged(req,res,next){
+    if(req.isAuthenticated()){
+        return next();
+    }
+    res.redirect("/");
+}
 
 
 
