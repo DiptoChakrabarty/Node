@@ -24,6 +24,21 @@ app.set("view engine","ejs");
 
 seedDB();
 
+
+// Passport Configuration
+
+app.use(require("express-session")({
+    secret: "I am Awesome",
+    resave: false,
+    saveUninitialized: false
+}));
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new local(user.authenticate()));
+passport.serializeUser(user.serializeUser());
+passport.deserializeUser(user.deserializeUser());
+
+
 // setup REST routes
 app.get("/",function(req,res){
     res.redirect("/blogs");
@@ -143,7 +158,25 @@ app.post("/blogs/:id/comments",function(req,res){
     });
 });
     
+// Registrations Routes *********************//
 
+app.get("/signup",function(res,req){
+        res.render("signup");
+});
+
+
+app.post("signup",function(res,req){
+    var name = req.body.username;
+    var pass =  req.body.password;
+    user.register(new user({username: name}),pass,function(err,user){
+        if(err){
+            res.render("signup");
+        }
+       passport.authenticate("local")(req,res,function(){                               //local is local strategy
+                res.redirect("/")
+       });
+    });
+});
 
 app.listen(3000,function(){
     console.log("Server started in port 3000");
