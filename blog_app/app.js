@@ -5,6 +5,8 @@ var express =  require("express"),
     local= require("passport-local"),
     mongoose = require("mongoose");
 
+mongoose.connect("mongodb://localhost/blog");
+
 var blog= require("./models/blog.js");
 var user = require("./models/user.js");
 var comment = require("./models/comment.js");
@@ -12,7 +14,7 @@ var seedDB = require("./seeds");
 
 var methodOverride =  require("method-override");
 
-mongoose.connect("mongodb://localhost/blog");
+
 // setup app
 app.use(body.urlencoded({extended : true}));
 
@@ -148,6 +150,7 @@ app.post("/blogs/:id/comments",isLoggedIn,function(req,res){
     blog.findById(req.params.id,function(err,data){
         if(err){
             console.log("11111111111111111111111111111");
+            console.log(data);
             res.redirect("/blogs");
             
         }
@@ -155,16 +158,20 @@ app.post("/blogs/:id/comments",isLoggedIn,function(req,res){
             comment.create(req.body.comments,function(err,comm){
                 if(err){
                     console.log("22222222222222222222222");
+                    console.log(req.body.comments);
+                    console.log(data);
                     console.log(err);
                     
                 }else{
                     console.log("555555555555555555555555");
                     console.log(comm);
-                    blog.comments.push(comm);
+                    console.log(data);
+                   // console.log(blog.comment.find({}));
+                    data.comments.push(comm);
                    
                     console.log(data);
-                    blogs.save();
-                    res.redirect("/blogs/"+blogs._id);
+                    data.save();
+                    res.redirect("/blogs/"+blog._id);
                 }
 
             });
