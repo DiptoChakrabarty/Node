@@ -108,7 +108,7 @@ app.get("/blogs/:id/edit",function(req,res){
 app.put("/blogs/:id",function(req,res){
         blog.findByIdAndUpdate(req.params.id,req.body.blog,function(err,updated){
             if(err){
-                res.redirect("blogs");
+                res.redirect("/blogs");
             }else {
                 res.redirect("/blogs/"+req.params.id);
             }
@@ -147,14 +147,22 @@ app.post("/blogs/:id/comments",isLoggedIn,function(req,res){
 
     blog.findById(req.params.id,function(err,data){
         if(err){
+            console.log("11111111111111111111111111111");
             res.redirect("/blogs");
+            
         }
         else{
-            comment.create(req.body.comments,function(err,comment){
+            comment.create(req.body.comments,function(err,comm){
                 if(err){
+                    console.log("22222222222222222222222");
                     console.log(err);
+                    
                 }else{
-                    blogs.comments.push(comment);
+                    console.log("555555555555555555555555");
+                    console.log(comm);
+                    blog.comments.push(comm);
+                   
+                    console.log(data);
                     blogs.save();
                     res.redirect("/blogs/"+blogs._id);
                 }
@@ -213,7 +221,10 @@ function isLoggedIn(req,res,next){
     if(req.isAuthenticated()){
         return next();
     }
-    res.redirect("signin");
+    else{
+        res.redirect("signin");
+    }
+    
 }
 
 
