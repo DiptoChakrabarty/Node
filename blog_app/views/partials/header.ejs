@@ -13,7 +13,17 @@
                 <div class = "header item"><i class="code icon"> </i>Blog Site</div>
                 <a href="/" class="item">Home</a>
                 <a href="/blogs/new" class="item">New Post</a>
-            </div>
+               <% if(!currentuser){   %>
+                    <a href="/signup" class="item">SignUp</a>
+                    <a href="/signin" class="item">SignIn</a>
+
+                
+                 <% }  else{    %>
+                        <a href="/logout" class="item">LogOut</a>
+                 <%   }     %>
+                    
+                    
+              </div>
 
         </div>
     

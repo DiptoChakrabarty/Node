@@ -39,9 +39,15 @@ passport.serializeUser(user.serializeUser());
 passport.deserializeUser(user.deserializeUser());
 
 
+app.use(function(req,res,next){
+    res.locals.currentuser = req.user;
+    next();
+});
+
+
 // setup REST routes
 app.get("/",function(req,res){
-    res.redirect("/blogs");
+    res.render("auth");
 });
 
 app.get("/blogs",function(req,res){
@@ -49,7 +55,7 @@ app.get("/blogs",function(req,res){
         if(err){
             console.log("Error");
         } else {
-            res.render("index" , {blogs : blogs})
+            res.render("index" , {blogs : blogs,currentuser: req.user})
         }
     });
    
@@ -67,7 +73,7 @@ app.post("/blogs",function(req,res){
         if(err){
             res.render("new");
         } else{
-            res.redirect("/");
+            res.redirect("/blogs");
         }
     });
 });
@@ -125,7 +131,7 @@ app.delete("/blogs/:id",function(req,res){
 
 //Comments Route
 
-app.get("/blogs/:id/comments/new",function(req,res){
+app.get("/blogs/:id/comments/new",isLoggedIn,function(req,res){
     blog.findById(req.params.id,function(err,data){
         if(err){
             console.log(err);
@@ -137,7 +143,7 @@ app.get("/blogs/:id/comments/new",function(req,res){
     });
 });
 
-app.post("/blogs/:id/comments",function(req,res){
+app.post("/blogs/:id/comments",isLoggedIn,function(req,res){
 
     blog.findById(req.params.id,function(err,data){
         if(err){
@@ -160,23 +166,58 @@ app.post("/blogs/:id/comments",function(req,res){
     
 // Registrations Routes *********************//
 
-app.get("/signup",function(res,req){
+
+
+// signup user
+app.get("/signup",function(req,res){
         res.render("signup");
 });
 
 
-app.post("signup",function(res,req){
+app.post("/signup",function(req,res){
     var name = req.body.username;
     var pass =  req.body.password;
     user.register(new user({username: name}),pass,function(err,user){
         if(err){
+            console.log(err);
             res.render("signup");
         }
        passport.authenticate("local")(req,res,function(){                               //local is local strategy
-                res.redirect("/")
+                res.redirect("/blogs")
        });
     });
 });
+
+
+// signin user
+app.get("/signin",function(req,res){
+    res.render("signin");
+});
+
+app.post("/signin",passport.authenticate("local",{
+    successRedirect: "/blogs",
+    failureRedirect: "/signin"
+
+}),function(req,res){
+});
+
+
+//logout user
+app.get("/logout",function(req,res){
+    req.logout();
+    res.redirect("/");
+});
+
+//middleware code for checking user logged in or not
+function isLoggedIn(req,res,next){
+    if(req.isAuthenticated()){
+        return next();
+    }
+    res.redirect("signin");
+}
+
+
+
 
 app.listen(3000,function(){
     console.log("Server started in port 3000");
