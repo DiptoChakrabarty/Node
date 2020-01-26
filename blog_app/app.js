@@ -1,7 +1,9 @@
-var express =  require("express");
-var app = express();
-var body = require("body-parser");
-var mongoose = require("mongoose");
+var express =  require("express"),
+    app = express(),
+    body = require("body-parser"),
+    passport = require("passport"),
+    local= require("passport-local"),
+    mongoose = require("mongoose");
 
 var blog= require("./models/blog.js");
 var user = require("./models/user.js");

@@ -43,7 +43,7 @@ app.get("/",function(req,res){
 
 
 app.get("/secret",islogged,function(req,res){
-    res.render("secret");
+    res.render("secret");  //MiddleWare run to check user running status
 });
 
 //signup method
@@ -101,6 +101,7 @@ app.get("/logout",function(req,res){
 });
 
 //Middleware for logged in
+//When Run checks if user logged in or not
 
 function islogged(req,res,next){
     if(req.isAuthenticated()){
