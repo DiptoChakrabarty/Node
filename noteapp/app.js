@@ -23,7 +23,17 @@ yargs.command({
         }
     },
     handler: function(argv){
-        addnotes(argv.title,argv.body)
+       // addnotes(argv.title,argv.body)
+       console.log('New Note',argv)
+    }
+})
+
+// Read Command
+yargs.command({
+    command: 'read',
+    describe: 'read note',
+    handler: function(){
+        console.log("Reading a note")
     }
 })
 
