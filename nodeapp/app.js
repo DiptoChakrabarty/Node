@@ -8,7 +8,11 @@ app.use(express.static("public"));
 app.set("view engine","ejs")
 
 app.get("/",function(req,res){
-    res.send("Welcome to Node app");
+    res.render("index");
+});
+
+app.get("/desc",function(req,res){
+    res.send("This is another page");
 });
 
 
