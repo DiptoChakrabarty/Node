@@ -25,6 +25,7 @@ yargs.command({
     handler: function(argv){
        // addnotes(argv.title,argv.body)
        console.log('New Note',argv)
+       console.log(argv.title)
     }
 })
 
@@ -34,6 +35,15 @@ yargs.command({
     describe: 'read note',
     handler: function(){
         console.log("Reading a note")
+    }
+})
+
+// Delete
+yargs.command({
+    command: 'delet',
+    describe: 'delete note',
+    handler: function(){
+        console.log("Delete a note")
     }
 })
 
